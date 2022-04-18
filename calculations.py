@@ -77,23 +77,80 @@ def calc_total():
 
 
 def edw_hourly_in():
-    pass
+    hourly_values = [0 for i in range(24)]
+    counter = 0
+    for i in EDW_meters.values:
+        for j in readings.values:
+            if i[0] == j[0]:
+                if pd.isna(j[2]) and pd.isna(j[3]):
+                    continue
+                elif (pd.isna(j[3]) == False) and (pd.isna(j[2])):
+                    hourly_values[counter % 24] += (j[3] * i[2])
+                else:
+                    hourly_values[counter % 24] += (j[2] * i[2])
+            counter += 1
+    return hourly_values
+
 
 def edw_hourly_out():
-    pass
+    hourly_values = [0 for i in range(24)]
+    counter = 0
+    for i in EDW_meters.values:
+        for j in readings.values:
+            if i[0] == j[0]:
+                if pd.isna(j[4]) and pd.isna(j[5]):
+                    continue
+                elif (pd.isna(j[5]) == False) and (pd.isna(j[4])):
+                    hourly_values[counter % 24] += (j[5] * i[3])
+                else:
+                    hourly_values[counter % 24] += (j[4] * i[3])
+    return hourly_values
 
-def edw_hourly_total():
-    pass
 
 def manufacturer_hourly_in():
-    pass
+    hourly_values = [0 for i in range(24)]
+    counter = 0
+    for i in manufacturer_meters.values:
+        for j in readings.values:
+            if i[0] == j[0]:
+                if pd.isna(j[2]) and pd.isna(j[3]):
+                    continue
+                elif (pd.isna(j[3]) == False) and (pd.isna(j[2])):
+                    hourly_values[counter % 24] += (j[3] * i[2])
+                else:
+                    hourly_values[counter % 24] += (j[2] * i[2])
+            counter += 1
+    return hourly_values
+
 
 def manufacturer_hourly_out():
-    pass
+    hourly_values = [0 for i in range(24)]
+    counter = 0
+    for i in manufacturer_meters.values:
+        for j in readings.values:
+            if i[0] == j[0]:
+                if pd.isna(j[4]) and pd.isna(j[5]):
+                    continue
+                elif (pd.isna(j[5]) == False) and (pd.isna(j[4])):
+                    hourly_values[counter % 24] += (j[5] * i[3])
+                else:
+                    hourly_values[counter % 24] += (j[4] * i[3])
+    return hourly_values
+
+
+def edw_hourly_total():
+    a = edw_hourly_in()
+    b = edw_hourly_out()
+    return [x + y for x, y in zip(a, b)]
+
 
 def manufacturer_hourly_total():
-    pass
+    a = manufacturer_hourly_in()
+    b = manufacturer_hourly_out()
+    return [x + y for x, y in zip(a, b)]
+
 
 def hourly_total():
-    pass
-
+    a = edw_hourly_total()
+    b = manufacturer_hourly_total()
+    return [x + y for x, y in zip(a, b)]

@@ -10,6 +10,8 @@ def main():
     print("Manufacturer total:",     c.calc_manufacturer_total())
     print("Total:", c.calc_total())
 
+    print("hourly total:", c.hourly_total())
+
 
 if __name__ == '__main__':
     main()
